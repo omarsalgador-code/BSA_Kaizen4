@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaizen 4 Links – Borbet</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#000000" />
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+    .app {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      padding: 24px 20px 28px;
+      max-width: 420px;
+      width: calc(100% - 32px);
+      text-align: center;
+    }
+    .logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: block;
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin: 0 0 4px;
+    }
+    p.subtitle {
+      margin: 0 0 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+    }
+    a.link-btn {
+      display: block;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #1f2933;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    a.link-btn span.small {
+      display: block;
+      font-size: 0.78rem;
+      opacity: 0.8;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    footer {
+      margin-top: 18px;
+      font-size: 0.72rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <img src="icon-192.png" alt="Borbet Kaizen" class="logo" />
+    <h1>Kaizen 4 Links</h1>
+    <p class="subtitle">Quick access to Job Observation tools</p>
+
+    <div class="links">
+      <a class="link-btn" href="https://forms.office.com/e/EwxQEQAdts" target="_blank" rel="noopener">
+        Periodic Job Observation Form
+        <span class="small">Microsoft Forms – fill out observation</span>
+      </a>
+
+      <a class="link-btn" href="https://borbetgroup-my.sharepoint.com/:x:/r/personal/sisa_borbetsa_net/Documents/Periodic Job Observation.xlsx?d=w3015343f9a5d4f88a1dabf9d2feb023e&amp;csf=1&amp;web=1&amp;e=3cGglx" target="_blank" rel="noopener">
+        Observation Spreadsheet
+        <span class="small">Excel – periodic observations</span>
+      </a>
+
+      <a class="link-btn" href="https://borbetgroup-my.sharepoint.com/:x:/r/personal/sisa_borbetsa_net/Documents/Periodic Job Observation Open Items.xlsx?d=w6c8f7b1e2ce24f82a5ebd3eda3b3cbe4&amp;csf=1&amp;web=1&amp;e=oPrrG6" target="_blank" rel="noopener">
+        Open Items
+        <span class="small">Excel – follow-up actions</span>
+      </a>
+
+      <a class="link-btn" href="https://borbetgroup-my.sharepoint.com/:x:/r/personal/sisanda_borbetsa_net/Documents/Accountability Tracker Report 2025 1.xlsx?d=wb142680d9d4e4be1a9f160f8751554d1&amp;csf=1&amp;web=1&amp;e=we9pI1" target="_blank" rel="noopener">
+        Accountability Tracker
+        <span class="small">Excel – accountability overview</span>
+      </a>
+    </div>
+
+    <footer>
+      Tip: Add this page to your home screen for app-like access.
+    </footer>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch((err) => {
+          console.warn('Service worker registration failed', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
