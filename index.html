@@ -79,41 +79,83 @@
     <h1>Kaizen 4 Links</h1>
     <p class="subtitle">Quick access to Job Observation tools</p>
 
-    <div class="links">
-      <a class="link-btn" href="https://forms.office.com/e/EwxQEQAdts" target="_blank" rel="noopener">
-        Periodic Job Observation Form
-        <span class="small">Microsoft Forms – fill out observation</span>
-      </a>
-
-      <a class="link-btn" href="https://borbetgroup-my.sharepoint.com/:x:/r/personal/sisa_borbetsa_net/Documents/Periodic Job Observation.xlsx?d=w3015343f9a5d4f88a1dabf9d2feb023e&amp;csf=1&amp;web=1&amp;e=3cGglx" target="_blank" rel="noopener">
-        Observation Spreadsheet
-        <span class="small">Excel – periodic observations</span>
-      </a>
-
-      <a class="link-btn" href="https://borbetgroup-my.sharepoint.com/:x:/r/personal/sisa_borbetsa_net/Documents/Periodic Job Observation Open Items.xlsx?d=w6c8f7b1e2ce24f82a5ebd3eda3b3cbe4&amp;csf=1&amp;web=1&amp;e=oPrrG6" target="_blank" rel="noopener">
-        Open Items
-        <span class="small">Excel – follow-up actions</span>
-      </a>
-
-      <a class="link-btn" href="https://borbetgroup-my.sharepoint.com/:x:/r/personal/sisanda_borbetsa_net/Documents/Accountability Tracker Report 2025 1.xlsx?d=wb142680d9d4e4be1a9f160f8751554d1&amp;csf=1&amp;web=1&amp;e=we9pI1" target="_blank" rel="noopener">
-        Accountability Tracker
-        <span class="small">Excel – accountability overview</span>
-      </a>
-    </div>
+    <div class="links" id="links-container">
+  <!-- Links will be injected here from links.json -->
+</div>
 
     <footer>
       Tip: Add this page to your home screen for app-like access.
     </footer>
   </div>
+<script>
+  // 👉 1. URL of your links.json on SharePoint
+  const LINKS_JSON_URL = "https://p3web.sharepoint.com/:t:/t/P3DataRequest-BMWMP-ZA/IQBUR7mSTcv-QKZpI_tYJXvPAVX07MXUruuLlyUoJXoX4m8?e=3bBlQn";
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js').catch((err) => {
-          console.warn('Service worker registration failed', err);
-        });
+  // 👉 2. Load and render the links
+  async function loadLinks() {
+    const container = document.getElementById("links-container");
+    container.innerHTML = "Loading links...";
+
+    try {
+      const response = await fetch(LINKS_JSON_URL, {
+        // Important so it works when users are logged into SharePoint
+        credentials: "include",
+        mode: "cors"
+      });
+
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+
+      const links = await response.json();
+
+      if (!Array.isArray(links) || links.length === 0) {
+        container.innerHTML = "No links configured.";
+        return;
+      }
+
+      // Clear loading text
+      container.innerHTML = "";
+
+      // Build buttons
+      links.forEach(item => {
+        const a = document.createElement("a");
+        a.className = "link-btn";
+        a.href = item.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+
+        const title = document.createElement("div");
+        title.textContent = item.name || "Untitled link";
+
+        a.appendChild(title);
+
+        if (item.description) {
+          const small = document.createElement("span");
+          small.className = "small";
+          small.textContent = item.description;
+          a.appendChild(small);
+        }
+
+        container.appendChild(a);
+      });
+    } catch (err) {
+      console.error("Error loading links.json", err);
+      container.innerHTML = "Error loading links. Please try again or contact your administrator.";
+    }
+  }
+
+  // 👉 3. Run when the page loads
+  window.addEventListener("load", () => {
+    loadLinks();
+
+    // Service worker registration (PWA install support)
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js").catch(err => {
+        console.warn("Service worker registration failed", err);
       });
     }
-  </script>
+  });
+</script>
 </body>
 </html>
